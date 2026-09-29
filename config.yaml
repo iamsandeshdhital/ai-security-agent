@@ -1,0 +1,212 @@
+# AI Security Agent Configuration
+# ================================
+
+agent:
+  name: "SentinelAI"
+  version: "1.0.0"
+  scan_interval_seconds: 5
+  log_file: "security_log.json"
+  alert_log: "alerts.json"
+
+# Network Protection
+network:
+  enabled: true
+  # Max connections per IP before flagging
+  max_connections_per_ip: 20
+  # Port scan detection: unique ports touched within time window
+  port_scan_threshold: 15
+  port_scan_window_seconds: 60
+  # DDoS detection: total connections within time window
+  ddos_threshold: 100
+  ddos_window_seconds: 30
+  # Known malicious IP ranges (CIDR)
+  blocklist_cidr:
+    - "10.0.0.0/8"       # Private (example - customize as needed)
+  # Whitelisted IPs to never block
+  whitelist_ips:
+    - "127.0.0.1"
+    - "::1"
+
+# Process Protection
+process:
+  enabled: true
+  # Suspicious process name patterns
+  suspicious_patterns:
+    - "miner"
+    - "hack"
+    - "exploit"
+    - "keylog"
+    - "rat"
+    - "bot"
+    - "backdoor"
+    - "trojan"
+  # Max CPU% before flagging
+  max_cpu_percent: 90
+  # Max memory % before flagging
+  max_memory_percent: 85
+  # Auto-kill suspicious processes
+  auto_kill: false
+
+# File System Protection
+filesystem:
+  enabled: true
+  # Directories to monitor for unauthorized changes
+  watch_directories:
+    - "C:/Windows/System32"
+    - "C:/Users/NEPAL/OneDrive/Desktop"
+  # Suspicious file extensions often used by malware
+  suspicious_extensions:
+    - ".exe"
+    - ".dll"
+    - ".bat"
+    - ".ps1"
+    - ".vbs"
+    - ".scr"
+  # Max new files per minute before flagging
+  max_new_files_per_minute: 10
+
+# AI Anomaly Detection
+ai:
+  enabled: true
+  # Learning period in seconds (baseline behavior)
+  learning_period_seconds: 300
+  # Anomaly threshold (0-1, higher = more sensitive)
+  anomaly_threshold: 0.75
+  # Features to track for behavioral analysis
+  features:
+    - "network_connection_rate"
+    - "process_creation_rate"
+    - "cpu_usage_variance"
+    - "memory_usage_variance"
+    - "disk_io_rate"
+    - "failed_logins"
+
+# USB Device Protection
+usb:
+  enabled: true
+  # Authorized USB device IDs (empty = allow all known)
+  authorized_devices: []
+  # Block unauthorized USB devices
+  block_unauthorized: false
+  # Only allow mass storage devices
+  mass_storage_only: false
+
+# Registry Protection
+registry:
+  enabled: true
+  scan_interval_seconds: 30
+  # Critical registry paths to monitor
+  critical_paths:
+    - "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    - "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce"
+    - "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    - "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services"
+    - "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"
+  # Suspicious patterns in registry values
+  suspicious_patterns:
+    - "powershell"
+    - "cmd.exe"
+    - "rundll32"
+    - "mshta"
+    - "wscript"
+    - "certutil"
+    - "bitsadmin"
+
+# Browser Protection
+browser:
+  enabled: true
+  scan_interval_seconds: 60
+  # Known malicious extension IDs
+  malicious_extensions: []
+  # Suspicious extension name patterns
+  suspicious_patterns:
+    - "adblock"
+    - "vpn"
+    - "proxy"
+    - "download manager"
+    - "video downloader"
+    - "coupon"
+    - "shopping"
+
+# Firewall Protection
+firewall:
+  enabled: true
+  scan_interval_seconds: 30
+  # Suspicious rule patterns
+  suspicious_patterns:
+    - "allow all"
+    - "any"
+    - "0.0.0.0/0"
+    - "permit"
+
+# DNS Protection
+dns:
+  enabled: true
+  scan_interval_seconds: 30
+  # Trusted DNS servers
+  trusted_dns:
+    - "8.8.8.8"
+    - "8.8.4.4"
+    - "1.1.1.1"
+    - "1.0.0.1"
+    - "9.9.9.9"
+    - "208.67.222.222"
+  # Suspicious TLDs
+  suspicious_tlds:
+    - ".tk"
+    - ".ml"
+    - ".ga"
+    - ".cf"
+    - ".gq"
+    - ".xyz"
+    - ".top"
+
+# Credential Protection
+credential:
+  enabled: true
+  scan_interval_seconds: 30
+  # Max failed login attempts before flagging
+  max_failed_attempts: 5
+  brute_force_window_seconds: 300
+
+# Data Exfiltration Protection
+exfiltration:
+  enabled: true
+  scan_interval_seconds: 10
+  # Max bytes per minute before flagging
+  max_bytes_per_minute: 100000000
+  # Max connections per process
+  max_connections_per_process: 50
+  # Suspicious remote ports
+  suspicious_ports:
+    - 4444
+    - 5555
+    - 6666
+    - 7777
+    - 8888
+    - 9999
+    - 31337
+    - 12345
+    - 54321
+
+# Auto-Response Actions
+response:
+  enabled: true
+  # Actions: "log", "alert", "block_ip", "kill_process", "isolate"
+  on_port_scan: ["log", "alert", "block_ip"]
+  on_ddos: ["log", "alert", "block_ip"]
+  on_suspicious_process: ["log", "alert", "kill_process"]
+  on_anomaly: ["log", "alert"]
+  on_brute_force: ["log", "alert", "block_ip"]
+
+# Alerting
+alerts:
+  enabled: true
+  # Console output
+  console: true
+  # Sound alert
+  sound: false
+  # Desktop notification
+  desktop_notification: true
+  # Webhook URL for external alerts (Slack, Discord, etc.)
+  webhook_url: ""
